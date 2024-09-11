@@ -1,14 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\",
+  "WorkspaceRootPath": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\downloads\\curso-c--master\\curso-c--master\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\desktop\\curso_csharp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\downloads\\curso-c--master\\curso-c--master\\paradigmasoo\\06-composicao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:paradigmasoo\\06-composicao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\desktop\\curso_csharp\\paradigmasoo\\07-multiplcidade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:paradigmasoo\\07-multiplcidade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,25 +23,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "06-Composicao.cs",
-              "DocumentMoniker": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\ParadigmasOO\\06-Composicao.cs",
-              "RelativeDocumentMoniker": "ParadigmasOO\\06-Composicao.cs",
-              "ToolTip": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\ParadigmasOO\\06-Composicao.cs",
-              "RelativeToolTip": "ParadigmasOO\\06-Composicao.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Title": "07-Multiplcidade.cs",
+              "DocumentMoniker": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\ParadigmasOO\\07-Multiplcidade.cs",
+              "RelativeDocumentMoniker": "ParadigmasOO\\07-Multiplcidade.cs",
+              "ToolTip": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\ParadigmasOO\\07-Multiplcidade.cs",
+              "RelativeToolTip": "ParadigmasOO\\07-Multiplcidade.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-11T19:33:21.702Z",
+              "WhenOpened": "2024-09-11T19:50:53.285Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\Program.cs",
+              "ToolTip": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAACEBAAAAAAAAAAAcwFMBAAAMAAAA",
+              "ViewState": "AQIAAC4BAAAAAAAAAAAAAFkBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-11T17:34:59.705Z",
               "EditorCaption": ""

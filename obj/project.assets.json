@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\Curso CSharp.csproj",
+      "projectUniqueName": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\Curso CSharp.csproj",
       "projectName": "Curso CSharp",
-      "projectPath": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\Curso CSharp.csproj",
+      "projectPath": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\Curso CSharp.csproj",
       "packagesPath": "C:\\Users\\Aluno Noite\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Aluno Noite\\Downloads\\Curso-C--master\\Curso-C--master\\obj\\",
+      "outputPath": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Aluno Noite\\AppData\\Roaming\\NuGet\\NuGet.Config",

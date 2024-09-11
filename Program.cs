@@ -328,13 +328,28 @@ funcionarioSemDepartamento.ExibirInformacoes();
 // Explicando o conceito de associação
 funcionarioComDepartamento.ExplicarAssociacao();*/
 
-// Criando um objeto Carro, que inclui a criação de um Motor
+/*// Criando um objeto Carro, que inclui a criação de um Motor
 Carro carro = new Carro("Fusca", "Motor 1600");
 
 // Exibindo informações sobre o carro e seu motor
 carro.ExibirInformacoes();
 
 // Explicando o conceito de composição
-carro.ExplicarComposicao();
+carro.ExplicarComposicao();*/
 
-ugifbnsnbnfb
+// Criando funcionários
+FuncionarioMulti funcionario1 = new FuncionarioMulti("Ana");
+FuncionarioMulti funcionario2 = new FuncionarioMulti("Carlos");
+
+// Criando um projeto
+Projeto projeto = new Projeto("Desenvolvimento de Software");
+
+// Adicionando funcionários ao projeto
+projeto.AdicionarFuncionario(funcionario1);
+projeto.AdicionarFuncionario(funcionario2);
+
+// Exibindo informações sobre o projeto e seus funcionários
+projeto.ExibirInformacoes();
+
+// Explicando o conceito de multiplicidade
+projeto.ExplicarMultiplicidade();
