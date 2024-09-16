@@ -1,7 +1,9 @@
 ﻿using Curso_C_;
 using Curso_C_.ParadigmasOO;
+using GerenciamentoBar;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 /*namespace BibliotecaVeiculos
 {
@@ -368,7 +370,7 @@ gato.FazerSom();
 // Explicando o conceito de classe abstrata
 cachorro.ExplicarClasseAbstrata();*/
 
-// Criando instâncias de classes que implementam a interface
+/*// Criando instâncias de classes que implementam a interface
 IAnimal cachorro = new CachorroInter("Rex");
 IAnimal gato = new GatoInter("Mimi");
 
@@ -381,4 +383,1027 @@ gato.FazerSom();
 
 // Explicando o conceito de interface
 ExplicadorDeInterface explicador = new ExplicadorDeInterface();
-explicador.ExplicarInterface();
+explicador.ExplicarInterface();*/
+
+/*var exp = new ExplicadoraDePolimorfismo();
+AnimalPoli[] animais = new AnimalPoli[3];
+animais[0] = new CachorroPoli("Rex");
+animais[1] = new GatoPoli("Mimi");
+animais[2] = new AnimalPoli("Dinossauro");
+
+foreach (AnimalPoli animal in animais)
+{
+    animal.FazerSom(); // Comportamento polimórfico
+}
+exp.ExplicarPolimorfismo();*/
+
+/*namespace BibliotecaVeiculos
+{
+    class Program
+    {
+        static List<Usuario> usuarios = new List<Usuario>();
+        static Biblioteca biblioteca = new Biblioteca();
+
+        static void Main(string[] args)
+        {
+            CarregarDados();
+
+            int opcao = 0;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("==========   SISTEMA DE GERENCIAMENTO   ======");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Biblioteca de Livros");
+                Console.WriteLine("2. Gerenciar Usuários");
+                Console.WriteLine("0. Sair");
+
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        MenuBiblioteca();
+                        break;
+                    case 2:
+                        MenuUsuarios();
+                        break;
+                    case 0:
+                        SalvarDados(); // Salva dados antes de sair
+                        Console.WriteLine("\nSaindo do programa...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+            } while (opcao != 0);
+        }
+
+        static void MenuBiblioteca()
+        {
+            int opcao = 0;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("==========   BIBLIOTECA DE LIVROS   ==========");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Adicionar Livro");
+                Console.WriteLine("2. Listar Livros");
+                Console.WriteLine("3. Emprestar Livro");
+                Console.WriteLine("4. Devolver Livro");
+                Console.WriteLine("0. Voltar");
+                Console.WriteLine("==============================================");
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        AdicionarLivro();
+                        break;
+                    case 2:
+                        biblioteca.ObterLivros().ForEach(livro => livro.ExibirDetalhes());
+                        break;
+                    case 3:
+                        EmprestarLivro();
+                        break;
+                    case 4:
+                        DevolverLivro();
+                        break;
+                    case 0:
+                        Console.WriteLine("\nVoltando ao menu principal...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+                Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                Console.ReadKey(); // Pausa para permitir que o usuário veja a mensagem antes de continuar
+            } while (opcao != 0);
+        }
+
+        static void MenuUsuarios()
+        {
+            int opcao = 0;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("==========   GERENCIAR USUÁRIOS   ============");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Adicionar Usuário");
+                Console.WriteLine("2. Listar Usuários");
+                Console.WriteLine("3. Remover Usuário");
+                Console.WriteLine("0. Voltar");
+                Console.WriteLine("==============================================");
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        AdicionarUsuario();
+                        break;
+                    case 2:
+                        ListarUsuarios();
+                        break;
+                    case 3:
+                        RemoverUsuario();
+                        break;
+                    case 0:
+                        Console.WriteLine("\nVoltando ao menu principal...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+                Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            } while (opcao != 0);
+        }
+
+        static void AdicionarUsuario()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========   ADICIONAR NOVO USUÁRIO   =========");
+            Console.WriteLine("==============================================");
+            Console.Write("Digite o nome do usuário: ");
+            string nome = Console.ReadLine();
+            Console.Write("Digite o CPF do usuário: ");
+            string cpf = Console.ReadLine();
+
+            // Verificar se o CPF já existe
+            if (usuarios.Any(u => u.Cpf == cpf))
+            {
+                Console.WriteLine("\nUsuário com este CPF já existe.");
+                return;
+            }
+
+            Usuario usuario = new Usuario(nome, cpf);
+            usuarios.Add(usuario);
+            Console.WriteLine("\nUsuário adicionado com sucesso!");
+
+            // Atualizar o arquivo JSON
+            SalvarUsuarios();
+        }
+
+        static void ListarUsuarios()
+        {
+            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Usuarios.json";
+            if (File.Exists(caminhoArquivo))
+            {
+                try
+                {
+                    string json = File.ReadAllText(caminhoArquivo);
+                    var dados = JsonSerializer.Deserialize<Dados>(json);
+
+                    if (dados != null && dados.Usuarios != null)
+                    {
+                        Console.WriteLine("==============================================");
+                        Console.WriteLine("=========   LISTA DE USUÁRIOS CADASTRADOS   =========");
+                        Console.WriteLine("==============================================");
+
+                        if (dados.Usuarios.Count == 0)
+                        {
+                            Console.WriteLine("\nNenhum usuário cadastrado.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < dados.Usuarios.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1}. {dados.Usuarios[i].Nome} - CPF: {dados.Usuarios[i].Cpf}");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dados carregados são nulos ou a lista de usuários está vazia.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao carregar ou desserializar o JSON: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Arquivo JSON não encontrado.");
+            }
+        }
+
+        static void RemoverUsuario()
+        {
+            ListarUsuarios();
+            Console.Write("\nDigite o número do usuário a ser removido: ");
+            int indice = int.Parse(Console.ReadLine()) - 1;
+
+            if (indice >= 0 && indice < usuarios.Count)
+            {
+                usuarios.RemoveAt(indice);
+                Console.WriteLine("\nUsuário removido com sucesso!");
+                SalvarUsuarios(); // Atualiza o arquivo após remoção
+            }
+            else
+            {
+                Console.WriteLine("\nNúmero inválido.");
+            }
+        }
+
+        static void AdicionarLivro()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========   ADICIONAR NOVO LIVRO   ===========");
+            Console.WriteLine("==============================================");
+            Console.Write("Digite o título do livro: ");
+            string titulo = Console.ReadLine();
+            Console.Write("Digite o autor do livro: ");
+            string autor = Console.ReadLine();
+            Console.Write("Digite o ano de publicação: ");
+            int ano = int.Parse(Console.ReadLine());
+            Console.Write("Digite o número de páginas: ");
+            int paginas = int.Parse(Console.ReadLine());
+
+            Livro livro = new Livro(titulo, autor, ano, paginas);
+            biblioteca.AdicionarLivro(livro);
+            Console.WriteLine("\nLivro adicionado com sucesso!");
+            SalvarLivros(); // Atualiza o arquivo após adicionar livro
+        }
+
+        static void EmprestarLivro()
+        {
+            ListarUsuarios();
+            Console.Write("\nDigite o número do usuário que irá emprestar o livro: ");
+            int usuarioIndice = int.Parse(Console.ReadLine()) - 1;
+
+            if (usuarioIndice >= 0 && usuarioIndice < usuarios.Count)
+            {
+                Usuario usuario = usuarios[usuarioIndice];
+                Console.Write("Digite o título do livro: ");
+                string titulo = Console.ReadLine();
+                Livro livro = biblioteca.BuscarLivroPorTitulo(titulo);
+
+                if (livro != null)
+                {
+                    usuario.EmprestarLivro(livro, biblioteca);
+                    SalvarEmprestimos(); // Atualiza o arquivo de empréstimos após emprestar livro
+                }
+                else
+                {
+                    Console.WriteLine("\nLivro não encontrado.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nNúmero de usuário inválido.");
+            }
+        }
+
+        static void DevolverLivro()
+        {
+            ListarUsuarios();
+            Console.Write("\nDigite o número do usuário que irá devolver o livro: ");
+            int usuarioIndice = int.Parse(Console.ReadLine()) - 1;
+
+            if (usuarioIndice >= 0 && usuarioIndice < usuarios.Count)
+            {
+                Usuario usuario = usuarios[usuarioIndice];
+                Console.Write("Digite o título do livro: ");
+                string titulo = Console.ReadLine();
+                Livro livro = biblioteca.BuscarLivroPorTitulo(titulo);
+
+                if (livro != null)
+                {
+                    usuario.DevolverLivro(livro, biblioteca);
+                    SalvarEmprestimos(); // Atualiza o arquivo de empréstimos após devolver livro
+                }
+                else
+                {
+                    Console.WriteLine("\nLivro não encontrado.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nNúmero de usuário inválido.");
+            }
+        }
+
+        static void CarregarDados()
+        {
+            // Carregar usuários
+            string caminhoUsuarios = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Usuarios.json";
+            if (File.Exists(caminhoUsuarios))
+            {
+                string json = File.ReadAllText(caminhoUsuarios);
+                try
+                {
+                    var dados = JsonSerializer.Deserialize<Dados>(json);
+                    if (dados != null)
+                    {
+                        usuarios = dados.Usuarios;
+                        Console.WriteLine("Usuários carregados com sucesso.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dados carregados são nulos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao desserializar o JSON dos usuários: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Arquivo JSON de usuários não encontrado.");
+            }
+
+            // Carregar livros
+            string caminhoLivros = @"C:\Users\Professor\Desktop\Conteudo do Curso Tecnico\Curso C#\livros.json";
+            if (File.Exists(caminhoLivros))
+            {
+                string json = File.ReadAllText(caminhoLivros);
+                try
+                {
+                    var dados = JsonSerializer.Deserialize<Dados>(json);
+                    if (dados != null)
+                    {
+                        biblioteca = new Biblioteca();
+                        foreach (var livro in dados.Livros)
+                        {
+                            biblioteca.AdicionarLivro(livro);
+                        }
+                        Console.WriteLine("Livros carregados com sucesso.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dados carregados são nulos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao desserializar o JSON dos livros: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Arquivo JSON de livros não encontrado.");
+            }
+
+            // Carregar empréstimos (se necessário para inicializar estado)
+            string caminhoEmprestimos = @"C:\Users\Professor\Desktop\Conteudo do Curso Tecnico\Curso C#\emprestimos.json";
+            if (File.Exists(caminhoEmprestimos))
+            {
+                string json = File.ReadAllText(caminhoEmprestimos);
+                try
+                {
+                    var dados = JsonSerializer.Deserialize<Dados>(json);
+                    if (dados != null && dados.Emprestimos != null)
+                    {
+                        foreach (var emprestimo in dados.Emprestimos)
+                        {
+                            // Aqui você pode adicionar lógica para processar empréstimos carregados
+                        }
+                        Console.WriteLine("Empréstimos carregados com sucesso.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dados carregados são nulos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao desserializar o JSON dos empréstimos: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Arquivo JSON de empréstimos não encontrado.");
+            }
+        }
+
+        static void SalvarUsuarios()
+        {
+            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Usuarios.json";
+
+            try
+            {
+                var dados = new Dados
+                {
+                    Usuarios = usuarios,
+                    Livros = new List<Livro>(), // Lista vazia
+                    Emprestimos = new List<Emprestimo>() // Lista vazia
+                };
+
+                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(caminhoArquivo, json);
+
+                Console.WriteLine("Usuários salvos com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar usuários: {ex.Message}");
+            }
+        }
+
+        static void SalvarLivros()
+        {
+            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Livros.json";
+
+            try
+            {
+                var dados = new Dados
+                {
+                    Usuarios = new List<Usuario>(), // Lista vazia
+                    Livros = biblioteca.ObterLivros(),
+                    Emprestimos = new List<Emprestimo>() // Lista vazia
+                };
+
+                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(caminhoArquivo, json);
+
+                Console.WriteLine("Livros salvos com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar livros: {ex.Message}");
+            }
+        }
+
+        static void SalvarEmprestimos()
+        {
+            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Emprestimos.json";
+
+            try
+            {
+                var dados = new Dados
+                {
+                    Usuarios = new List<Usuario>(), // Lista vazia
+                    Livros = new List<Livro>(), // Lista vazia
+                    Emprestimos = usuarios.SelectMany(u => u.LivrosEmprestados.Select(l => new Emprestimo
+                    {
+                        UsuarioCpf = u.Cpf,
+                        LivroTitulo = l.Titulo,
+                        DataEmprestimo = DateTime.Now // Aqui seria ideal colocar a data real do empréstimo
+                    })).ToList()
+                };
+
+                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(caminhoArquivo, json);
+
+                Console.WriteLine("Empréstimos salvos com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar empréstimos: {ex.Message}");
+            }
+        }
+
+        static void SalvarDados()
+        {
+            SalvarUsuarios();
+            SalvarEmprestimos();
+            SalvarLivros();
+        }
+    }
+
+    public class Dados
+    {
+        public List<Usuario> Usuarios { get; set; }
+        public List<Livro> Livros { get; set; }
+        public List<Emprestimo> Emprestimos { get; set; }
+    }
+}*/
+
+
+
+namespace GerenciamentoBar
+{
+    class Program
+    {
+        static List<Consumidor> consumidores = new List<Consumidor>();
+        static List<Produto> produtos = new List<Produto>();
+        static List<Fornecedor> fornecedores = new List<Fornecedor>();
+
+        static void Main(string[] args)
+        {
+            CarregarDados();
+
+            int opcao = 0;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("==========   SISTEMA DE GERENCIAMENTO DE BAR  ======");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Gerenciar Consumidores");
+                Console.WriteLine("2. Gerenciar Produtos");
+                Console.WriteLine("3. Gerenciar Fornecedores");
+                Console.WriteLine("0. Sair");
+
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        MenuConsumidores();
+                        break;
+                    case 2:
+                        MenuProdutos();
+                        break;
+                    case 3:
+                        MenuFornecedores();
+                        break;
+                    case 0:
+                        SalvarDados(); // Salva dados antes de sair
+                        Console.WriteLine("\nSaindo do programa...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+            } while (opcao != 0);
+        }
+
+        static void MenuConsumidores()
+        {
+            int opcao = 0;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("==========   GERENCIAR CONSUMIDORES   =========");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Adicionar Consumidor");
+                Console.WriteLine("2. Listar Consumidores");
+                Console.WriteLine("3. Remover Consumidor");
+                Console.WriteLine("0. Voltar");
+                Console.WriteLine("==============================================");
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        AdicionarConsumidor();
+                        break;
+                    case 2:
+                        ListarConsumidores();
+                        break;
+                    case 3:
+                        RemoverConsumidor();
+                        break;
+                    case 0:
+                        Console.WriteLine("\nVoltando ao menu principal...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+                Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            } while (opcao != 0);
+        }
+
+        static void MenuProdutos()
+        {
+            int opcao = 0;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("==========   GERENCIAR PRODUTOS   ============");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Adicionar Produto");
+                Console.WriteLine("2. Listar Produtos");
+                Console.WriteLine("3. Atualizar Quantidade do Produto");
+                Console.WriteLine("0. Voltar");
+                Console.WriteLine("==============================================");
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        AdicionarProduto();
+                        break;
+                    case 2:
+                        ListarProdutos();
+                        break;
+                    case 3:
+                        AtualizarQuantidadeProduto();
+                        break;
+                    case 0:
+                        Console.WriteLine("\nVoltando ao menu principal...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+                Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            } while (opcao != 0);
+        }
+
+        static void MenuFornecedores()
+        {
+            int opcao = 0;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("==========   GERENCIAR FORNECEDORES   =========");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Adicionar Fornecedor");
+                Console.WriteLine("2. Listar Fornecedores");
+                Console.WriteLine("3. Remover Fornecedor");
+                Console.WriteLine("0. Voltar");
+                Console.WriteLine("==============================================");
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        AdicionarFornecedor();
+                        break;
+                    case 2:
+                        ListarFornecedores();
+                        break;
+                    case 3:
+                        RemoverFornecedor();
+                        break;
+                    case 0:
+                        Console.WriteLine("\nVoltando ao menu principal...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+                Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            } while (opcao != 0);
+        }
+
+        // Métodos para Consumidores
+        static void AdicionarConsumidor()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========   ADICIONAR NOVO CONSUMIDOR   =======");
+            Console.WriteLine("==============================================");
+            Console.Write("Digite o nome do consumidor: ");
+            string nome = Console.ReadLine();
+            Console.Write("Digite o CPF do consumidor: ");
+            string cpf = Console.ReadLine();
+
+            // Verificar se o CPF já existe
+            if (consumidores.Any(c => c.CPF == cpf))
+            {
+                Console.WriteLine("\nConsumidor com este CPF já existe.");
+                return;
+            }
+
+            Consumidor consumidor = new Consumidor(nome, cpf);
+            consumidores.Add(consumidor);
+            Console.WriteLine("\nConsumidor adicionado com sucesso!");
+
+            SalvarDados(); // Atualiza o arquivo após adicionar consumidor
+        }
+
+        static void ListarConsumidores()
+        {
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========   LISTA DE CONSUMIDORES   ==========");
+            Console.WriteLine("==============================================");
+
+            if (consumidores.Count == 0)
+            {
+                Console.WriteLine("\nNenhum consumidor cadastrado.");
+            }
+            else
+            {
+                for (int i = 0; i < consumidores.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {consumidores[i].Nome} - CPF: {consumidores[i].CPF}");
+                }
+            }
+        }
+
+        static void RemoverConsumidor()
+        {
+            ListarConsumidores();
+            Console.Write("\nDigite o número do consumidor a ser removido: ");
+            int indice = int.Parse(Console.ReadLine()) - 1;
+
+            if (indice >= 0 && indice < consumidores.Count)
+            {
+                consumidores.RemoveAt(indice);
+                Console.WriteLine("\nConsumidor removido com sucesso!");
+                SalvarDados(); // Atualiza o arquivo após remoção
+            }
+            else
+            {
+                Console.WriteLine("\nNúmero inválido.");
+            }
+        }
+
+        // Métodos para Produtos
+        static void AdicionarProduto()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========   ADICIONAR NOVO PRODUTO   ==========");
+            Console.WriteLine("==============================================");
+            Console.Write("Digite o nome do produto: ");
+            string nome = Console.ReadLine();
+            Console.Write("Digite o preço do produto: ");
+            decimal preco = decimal.Parse(Console.ReadLine());
+
+
+            Console.Write("Digite a quantidade do produto: ");
+            int quantidade = int.Parse(Console.ReadLine());
+
+            Produto produto = new Produto(nome, preco, quantidade);
+            produtos.Add(produto);
+            Console.WriteLine("\nProduto adicionado com sucesso!");
+
+            SalvarDados(); // Atualiza o arquivo após adicionar produto
+        }
+
+        static void ListarProdutos()
+        {
+            Console.WriteLine("==============================================");
+            Console.WriteLine("==========   LISTA DE PRODUTOS DO BAR   ============");
+            Console.WriteLine("==============================================");
+
+            if (produtos.Count == 0)
+            {
+                Console.WriteLine("\nNenhum produto cadastrado.");
+            }
+            else
+            {
+                for (int i = 0; i < produtos.Count; i++)
+                {
+                    produtos[i].ExibirDetalhes();
+                }
+            }
+        }
+
+        static void AtualizarQuantidadeProduto()
+        {
+            ListarProdutos();
+            Console.Write("\nDigite o número do produto cuja quantidade será atualizada: ");
+            int indice = int.Parse(Console.ReadLine()) - 1;
+
+            if (indice >= 0 && indice < produtos.Count)
+            {
+                Console.Write("Digite a nova quantidade: ");
+                int novaQuantidade = int.Parse(Console.ReadLine());
+
+                produtos[indice].Quantidade = novaQuantidade;
+                Console.WriteLine("\nQuantidade atualizada com sucesso!");
+                SalvarDados(); // Atualiza o arquivo após a atualização
+            }
+            else
+            {
+                Console.WriteLine("\nNúmero inválido.");
+            }
+        }
+
+        // Métodos para Fornecedores
+        static void AdicionarFornecedor()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("========   ADICIONAR NOVO FORNECEDOR   ========");
+            Console.WriteLine("==============================================");
+            Console.Write("Digite o nome do fornecedor: ");
+            string nome = Console.ReadLine();
+            Console.Write("Digite o CNPJ do fornecedor: ");
+            string cnpj = Console.ReadLine();
+
+            // Verificar se o CNPJ já existe
+            if (fornecedores.Any(f => f.CNPJ == cnpj))
+            {
+                Console.WriteLine("\nFornecedor com este CNPJ já existe.");
+                return;
+            }
+
+            Fornecedor fornecedor = new Fornecedor(nome, cnpj);
+            fornecedores.Add(fornecedor);
+            Console.WriteLine("\nFornecedor adicionado com sucesso!");
+
+            SalvarDados(); // Atualiza o arquivo após adicionar fornecedor
+        }
+
+        static void ListarFornecedores()
+        {
+            Console.WriteLine("==============================================");
+            Console.WriteLine("========   LISTA DE FORNECEDORES   ===========");
+            Console.WriteLine("==============================================");
+
+            if (fornecedores.Count == 0)
+            {
+                Console.WriteLine("\nNenhum fornecedor cadastrado.");
+            }
+            else
+            {
+                for (int i = 0; i < fornecedores.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {fornecedores[i].Nome} - CNPJ: {fornecedores[i].CNPJ}");
+                }
+            }
+        }
+
+        static void RemoverFornecedor()
+        {
+            ListarFornecedores();
+            Console.Write("\nDigite o número do fornecedor a ser removido: ");
+            int indice = int.Parse(Console.ReadLine()) - 1;
+
+            if (indice >= 0 && indice < fornecedores.Count)
+            {
+                fornecedores.RemoveAt(indice);
+                Console.WriteLine("\nFornecedor removido com sucesso!");
+                SalvarDados(); // Atualiza o arquivo após remoção
+            }
+            else
+            {
+                Console.WriteLine("\nNúmero inválido.");
+            }
+        }
+
+        static void CarregarDados()
+        {
+            // Carregar consumidores
+            string caminhoConsumidores = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Consumidores.json";
+            if (File.Exists(caminhoConsumidores))
+            {
+                string json = File.ReadAllText(caminhoConsumidores);
+                try
+                {
+                    var dados = JsonSerializer.Deserialize<Dados>(json);
+                    if (dados != null)
+                    {
+                        consumidores = dados.Consumidores;
+                        Console.WriteLine("Consumidores carregados com sucesso.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dados carregados são nulos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao desserializar o JSON dos consumidores: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Arquivo JSON de consumidores não encontrado.");
+            }
+
+            // Carregar produtos
+            string caminhoProdutos = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Produtos.json";
+            if (File.Exists(caminhoProdutos))
+            {
+                string json = File.ReadAllText(caminhoProdutos);
+                try
+                {
+                    var dados = JsonSerializer.Deserialize<Dados>(json);
+                    if (dados != null)
+                    {
+                        produtos = dados.Produtos;
+                        Console.WriteLine("Produtos carregados com sucesso.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dados carregados são nulos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao desserializar o JSON dos produtos: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Arquivo JSON de produtos não encontrado.");
+            }
+
+            // Carregar fornecedores
+            string caminhoFornecedores = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Fornecedores.json";
+            if (File.Exists(caminhoFornecedores))
+            {
+                string json = File.ReadAllText(caminhoFornecedores);
+                try
+                {
+                    var dados = JsonSerializer.Deserialize<Dados>(json);
+                    if (dados != null)
+                    {
+                        fornecedores = dados.Fornecedores;
+                        Console.WriteLine("Fornecedores carregados com sucesso.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dados carregados são nulos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao desserializar o JSON dos fornecedores: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Arquivo JSON de fornecedores não encontrado.");
+            }
+        }
+
+        static void SalvarDados()
+        {
+            SalvarConsumidores();
+            SalvarProdutos();
+            SalvarFornecedores();
+        }
+
+        static void SalvarConsumidores()
+        {
+            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Consumidores.json";
+
+            try
+            {
+                var dados = new Dados
+                {
+                    Consumidores = consumidores,
+                    Produtos = new List<Produto>(), // Lista vazia
+                    Fornecedores = new List<Fornecedor>() // Lista vazia
+                };
+
+                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(caminhoArquivo, json);
+
+                Console.WriteLine("Consumidores salvos com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar consumidores: {ex.Message}");
+            }
+        }
+
+        static void SalvarProdutos()
+        {
+            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Produtos.json";
+
+            try
+            {
+                var dados = new Dados
+                {
+                    Consumidores = new List<Consumidor>(), // Lista vazia
+                    Produtos = produtos,
+                    Fornecedores = new List<Fornecedor>() // Lista vazia
+                };
+
+                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(caminhoArquivo, json);
+
+                Console.WriteLine("Produtos salvos com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar produtos: {ex.Message}");
+            }
+        }
+
+        static void SalvarFornecedores()
+        {
+            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Fornecedores.json";
+
+            try
+            {
+                var dados = new Dados
+                {
+                    Consumidores = new List<Consumidor>(), // Lista vazia
+                    Produtos = new List<Produto>(), // Lista vazia
+                    Fornecedores = fornecedores
+                };
+
+                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(caminhoArquivo, json);
+
+                Console.WriteLine("Fornecedores salvos com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar fornecedores: {ex.Message}");
+            }
+        }
+    }
+}
+

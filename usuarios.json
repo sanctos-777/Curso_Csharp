@@ -1,0 +1,26 @@
+{
+  "Usuarios": [
+    {
+      "Nome": "Rodrigo de Jesus",
+      "Cpf": "213123123213",
+      "LivrosEmprestados": []
+    },
+    {
+      "Nome": "Lia Costa",
+      "Cpf": "232323232323",
+      "LivrosEmprestados": []
+    },
+    {
+      "Nome": "yutyuyutuytyu",
+      "Cpf": "4354354354",
+      "LivrosEmprestados": []
+    },
+    {
+      "Nome": "irineu",
+      "Cpf": "01234567",
+      "LivrosEmprestados": []
+    }
+  ],
+  "Livros": [],
+  "Emprestimos": []
+}

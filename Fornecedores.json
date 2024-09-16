@@ -1,0 +1,10 @@
+{
+  "Consumidores": [],
+  "Produtos": [],
+  "Fornecedores": [
+    {
+      "Nome": "coca-cola",
+      "CNPJ": "45.997.418/0017-10"
+    }
+  ]
+}

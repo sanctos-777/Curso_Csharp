@@ -1,0 +1,14 @@
+{
+  "Consumidores": [
+    {
+      "Nome": "tiago",
+      "CPF": "01234567"
+    },
+    {
+      "Nome": "arthur",
+      "CPF": "23456789"
+    }
+  ],
+  "Produtos": [],
+  "Fornecedores": []
+}

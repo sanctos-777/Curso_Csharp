@@ -1,0 +1,11 @@
+{
+  "Consumidores": [],
+  "Produtos": [
+    {
+      "Nome": "coca cola",
+      "Preco": 5,
+      "Quantidade": 10
+    }
+  ],
+  "Fornecedores": []
+}
