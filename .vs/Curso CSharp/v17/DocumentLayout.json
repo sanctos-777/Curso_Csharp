@@ -7,8 +7,12 @@
       "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\desktop\\curso_csharp\\programbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:programbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\desktop\\curso_csharp\\produtos.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:produtos.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\desktop\\curso_csharp\\consumidores.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:consumidores.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,19 +22,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Consumidores.json",
+              "DocumentMoniker": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\Consumidores.json",
+              "RelativeDocumentMoniker": "Consumidores.json",
+              "ToolTip": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\Consumidores.json",
+              "RelativeToolTip": "Consumidores.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-17T18:59:26.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ProgramBar.cs",
-              "DocumentMoniker": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\ProgramBar.cs",
-              "RelativeDocumentMoniker": "ProgramBar.cs",
-              "ToolTip": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\ProgramBar.cs",
-              "RelativeToolTip": "ProgramBar.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T19:51:03.735Z",
+              "Title": "produtos.json",
+              "DocumentMoniker": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\produtos.json",
+              "RelativeDocumentMoniker": "produtos.json",
+              "ToolTip": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\produtos.json",
+              "RelativeToolTip": "produtos.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-17T18:57:02.405Z",
               "EditorCaption": ""
             },
             {
@@ -41,7 +58,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Aluno Noite\\Desktop\\Curso_Csharp\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAJ4DAAAAAAAAAAAgwLMDAAAQAAAA",
+              "ViewState": "AQIAAHkDAAAAAAAAAAAAAH8DAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-16T19:50:33.772Z",
               "EditorCaption": ""

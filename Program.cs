@@ -1,4 +1,5 @@
 ﻿using Curso_C_;
+using Curso_C_.Paradigmas;
 using Curso_C_.ParadigmasOO;
 using GerenciamentoBar;
 using System;
@@ -881,28 +882,40 @@ exp.ExplicarPolimorfismo();*/
 
 
 
-namespace GerenciamentoBar
+
+
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+namespace SistemaGerenciamentoBar
 {
     class Program
     {
-        static List<Consumidor> consumidores = new List<Consumidor>();
         static List<Produto> produtos = new List<Produto>();
-        static List<Fornecedor> fornecedores = new List<Fornecedor>();
+        static List<Consumidor> consumidores = new List<Consumidor>();
+        static List<Consumo> consumos = new List<Consumo>();
+
+        static string caminhoProdutos = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\produtos.json"; // Caminho para o arquivo produtos.json
+        static string caminhoConsumidores = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Consumidores.json"; // Caminho para o arquivo consumidores.json
+        static string caminhoConsumos = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\consumos.json"; // Caminho para o arquivo consumos.json
 
         static void Main(string[] args)
         {
             CarregarDados();
 
-            int opcao = 0;
+            int opcao;
             do
             {
                 Console.Clear();
                 Console.WriteLine("==============================================");
-                Console.WriteLine("==========   SISTEMA DE GERENCIAMENTO DE BAR  ======");
+                Console.WriteLine("=========  SISTEMA DE GERENCIAMENTO  =========");
                 Console.WriteLine("==============================================\n");
-                Console.WriteLine("1. Gerenciar Consumidores");
-                Console.WriteLine("2. Gerenciar Produtos");
-                Console.WriteLine("3. Gerenciar Fornecedores");
+                Console.WriteLine("1. Gerenciar Produtos");
+                Console.WriteLine("2. Gerenciar Consumidores");
+                Console.WriteLine("3. Gerenciar Consumos");
                 Console.WriteLine("0. Sair");
 
                 Console.Write("Escolha uma opção: ");
@@ -911,16 +924,16 @@ namespace GerenciamentoBar
                 switch (opcao)
                 {
                     case 1:
-                        MenuConsumidores();
-                        break;
-                    case 2:
                         MenuProdutos();
                         break;
+                    case 2:
+                        MenuConsumidores();
+                        break;
                     case 3:
-                        MenuFornecedores();
+                        MenuConsumos();
                         break;
                     case 0:
-                        SalvarDados(); // Salva dados antes de sair
+                        SalvarDados();
                         Console.WriteLine("\nSaindo do programa...");
                         break;
                     default:
@@ -930,20 +943,65 @@ namespace GerenciamentoBar
             } while (opcao != 0);
         }
 
-        static void MenuConsumidores()
+        static void MenuProdutos()
         {
-            int opcao = 0;
+            int opcao;
             do
             {
                 Console.Clear();
                 Console.WriteLine("==============================================");
-                Console.WriteLine("==========   GERENCIAR CONSUMIDORES   =========");
+                Console.WriteLine("=========   GERENCIAR PRODUTOS   =============");
+                Console.WriteLine("==============================================\n");
+                Console.WriteLine("1. Adicionar Produto");
+                Console.WriteLine("2. Listar Produtos");
+                Console.WriteLine("3. Atualizar Produto");
+                Console.WriteLine("4. Remover Produto");
+                Console.WriteLine("0. Voltar");
+
+                Console.Write("Escolha uma opção: ");
+                opcao = int.Parse(Console.ReadLine());
+
+                switch (opcao)
+                {
+                    case 1:
+                        AdicionarProduto();
+                        break;
+                    case 2:
+                        ListarProdutos();
+                        break;
+                    case 3:
+                        AtualizarProduto();
+                        break;
+                    case 4:
+                        RemoverProduto();
+                        break;
+                    case 0:
+                        Console.WriteLine("\nVoltando ao menu principal...");
+                        break;
+                    default:
+                        Console.WriteLine("\nOpção inválida, tente novamente.");
+                        break;
+                }
+                Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            } while (opcao != 0);
+        }
+
+        static void MenuConsumidores()
+        {
+            int opcao;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("==============================================");
+                Console.WriteLine("========   GERENCIAR CONSUMIDORES  ===========");
                 Console.WriteLine("==============================================\n");
                 Console.WriteLine("1. Adicionar Consumidor");
                 Console.WriteLine("2. Listar Consumidores");
-                Console.WriteLine("3. Remover Consumidor");
+                Console.WriteLine("3. Atualizar Consumidor");
+                Console.WriteLine("4. Remover Consumidor");
                 Console.WriteLine("0. Voltar");
-                Console.WriteLine("==============================================");
+
                 Console.Write("Escolha uma opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
@@ -956,6 +1014,9 @@ namespace GerenciamentoBar
                         ListarConsumidores();
                         break;
                     case 3:
+                        AtualizarConsumidor();
+                        break;
+                    case 4:
                         RemoverConsumidor();
                         break;
                     case 0:
@@ -970,33 +1031,37 @@ namespace GerenciamentoBar
             } while (opcao != 0);
         }
 
-        static void MenuProdutos()
+        static void MenuConsumos()
         {
-            int opcao = 0;
+            int opcao;
             do
             {
                 Console.Clear();
                 Console.WriteLine("==============================================");
-                Console.WriteLine("==========   GERENCIAR PRODUTOS   ============");
+                Console.WriteLine("=========   GERENCIAR CONSUMOS   =============");
                 Console.WriteLine("==============================================\n");
-                Console.WriteLine("1. Adicionar Produto");
-                Console.WriteLine("2. Listar Produtos");
-                Console.WriteLine("3. Atualizar Quantidade do Produto");
+                Console.WriteLine("1. Adicionar Consumo");
+                Console.WriteLine("2. Listar Consumos");
+                Console.WriteLine("3. Atualizar Consumo");
+                Console.WriteLine("4. Remover Consumo");
                 Console.WriteLine("0. Voltar");
-                Console.WriteLine("==============================================");
+
                 Console.Write("Escolha uma opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
                 {
                     case 1:
-                        AdicionarProduto();
+                        AdicionarConsumo();
                         break;
                     case 2:
-                        ListarProdutos();
+                        ListarConsumos();
                         break;
                     case 3:
-                        AtualizarQuantidadeProduto();
+                        AtualizarConsumo();
+                        break;
+                    case 4:
+                        RemoverConsumo();
                         break;
                     case 0:
                         Console.WriteLine("\nVoltando ao menu principal...");
@@ -1010,136 +1075,28 @@ namespace GerenciamentoBar
             } while (opcao != 0);
         }
 
-        static void MenuFornecedores()
-        {
-            int opcao = 0;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("==============================================");
-                Console.WriteLine("==========   GERENCIAR FORNECEDORES   =========");
-                Console.WriteLine("==============================================\n");
-                Console.WriteLine("1. Adicionar Fornecedor");
-                Console.WriteLine("2. Listar Fornecedores");
-                Console.WriteLine("3. Remover Fornecedor");
-                Console.WriteLine("0. Voltar");
-                Console.WriteLine("==============================================");
-                Console.Write("Escolha uma opção: ");
-                opcao = int.Parse(Console.ReadLine());
-
-                switch (opcao)
-                {
-                    case 1:
-                        AdicionarFornecedor();
-                        break;
-                    case 2:
-                        ListarFornecedores();
-                        break;
-                    case 3:
-                        RemoverFornecedor();
-                        break;
-                    case 0:
-                        Console.WriteLine("\nVoltando ao menu principal...");
-                        break;
-                    default:
-                        Console.WriteLine("\nOpção inválida, tente novamente.");
-                        break;
-                }
-                Console.WriteLine("\nPressione qualquer tecla para continuar...");
-                Console.ReadKey();
-            } while (opcao != 0);
-        }
-
-        // Métodos para Consumidores
-        static void AdicionarConsumidor()
-        {
-            Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("=========   ADICIONAR NOVO CONSUMIDOR   =======");
-            Console.WriteLine("==============================================");
-            Console.Write("Digite o nome do consumidor: ");
-            string nome = Console.ReadLine();
-            Console.Write("Digite o CPF do consumidor: ");
-            string cpf = Console.ReadLine();
-
-            // Verificar se o CPF já existe
-            if (consumidores.Any(c => c.CPF == cpf))
-            {
-                Console.WriteLine("\nConsumidor com este CPF já existe.");
-                return;
-            }
-
-            Consumidor consumidor = new Consumidor(nome, cpf);
-            consumidores.Add(consumidor);
-            Console.WriteLine("\nConsumidor adicionado com sucesso!");
-
-            SalvarDados(); // Atualiza o arquivo após adicionar consumidor
-        }
-
-        static void ListarConsumidores()
-        {
-            Console.WriteLine("==============================================");
-            Console.WriteLine("=========   LISTA DE CONSUMIDORES   ==========");
-            Console.WriteLine("==============================================");
-
-            if (consumidores.Count == 0)
-            {
-                Console.WriteLine("\nNenhum consumidor cadastrado.");
-            }
-            else
-            {
-                for (int i = 0; i < consumidores.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {consumidores[i].Nome} - CPF: {consumidores[i].CPF}");
-                }
-            }
-        }
-
-        static void RemoverConsumidor()
-        {
-            ListarConsumidores();
-            Console.Write("\nDigite o número do consumidor a ser removido: ");
-            int indice = int.Parse(Console.ReadLine()) - 1;
-
-            if (indice >= 0 && indice < consumidores.Count)
-            {
-                consumidores.RemoveAt(indice);
-                Console.WriteLine("\nConsumidor removido com sucesso!");
-                SalvarDados(); // Atualiza o arquivo após remoção
-            }
-            else
-            {
-                Console.WriteLine("\nNúmero inválido.");
-            }
-        }
-
-        // Métodos para Produtos
         static void AdicionarProduto()
         {
             Console.Clear();
             Console.WriteLine("==============================================");
-            Console.WriteLine("=========   ADICIONAR NOVO PRODUTO   ==========");
+            Console.WriteLine("======    ADICIONAR NOVO PRODUTO    ==========");
             Console.WriteLine("==============================================");
             Console.Write("Digite o nome do produto: ");
             string nome = Console.ReadLine();
-            Console.Write("Digite o preço do produto: ");
-            decimal preco = decimal.Parse(Console.ReadLine());
 
-
-            Console.Write("Digite a quantidade do produto: ");
-            int quantidade = int.Parse(Console.ReadLine());
-
-            Produto produto = new Produto(nome, preco, quantidade);
+            int id = produtos.Count > 0 ? produtos[^1].Id + 1 : 1;
+            Produto produto = new Produto(id, nome);
             produtos.Add(produto);
-            Console.WriteLine("\nProduto adicionado com sucesso!");
 
-            SalvarDados(); // Atualiza o arquivo após adicionar produto
+            Console.WriteLine("\nProduto adicionado com sucesso!");
+            SalvarDados();
         }
 
         static void ListarProdutos()
         {
+            Console.Clear();
             Console.WriteLine("==============================================");
-            Console.WriteLine("==========   LISTA DE PRODUTOS DO BAR   ============");
+            Console.WriteLine("========    LISTA DE PRODUTOS    ============");
             Console.WriteLine("==============================================");
 
             if (produtos.Count == 0)
@@ -1148,262 +1105,332 @@ namespace GerenciamentoBar
             }
             else
             {
-                for (int i = 0; i < produtos.Count; i++)
+                foreach (var produto in produtos)
                 {
-                    produtos[i].ExibirDetalhes();
+                    Console.WriteLine($"ID: {produto.Id} - Nome: {produto.Nome}");
                 }
             }
         }
 
-        static void AtualizarQuantidadeProduto()
-        {
-            ListarProdutos();
-            Console.Write("\nDigite o número do produto cuja quantidade será atualizada: ");
-            int indice = int.Parse(Console.ReadLine()) - 1;
-
-            if (indice >= 0 && indice < produtos.Count)
-            {
-                Console.Write("Digite a nova quantidade: ");
-                int novaQuantidade = int.Parse(Console.ReadLine());
-
-                produtos[indice].Quantidade = novaQuantidade;
-                Console.WriteLine("\nQuantidade atualizada com sucesso!");
-                SalvarDados(); // Atualiza o arquivo após a atualização
-            }
-            else
-            {
-                Console.WriteLine("\nNúmero inválido.");
-            }
-        }
-
-        // Métodos para Fornecedores
-        static void AdicionarFornecedor()
+        static void AtualizarProduto()
         {
             Console.Clear();
             Console.WriteLine("==============================================");
-            Console.WriteLine("========   ADICIONAR NOVO FORNECEDOR   ========");
+            Console.WriteLine("==========   ATUALIZAR PRODUTO   ============");
             Console.WriteLine("==============================================");
-            Console.Write("Digite o nome do fornecedor: ");
+
+            Console.Write("Digite o ID do produto a ser atualizado: ");
+            int id = int.Parse(Console.ReadLine());
+
+            var produto = produtos.Find(p => p.Id == id);
+
+            if (produto != null)
+            {
+                Console.Write("Digite o novo nome do produto: ");
+                produto.Nome = Console.ReadLine();
+
+                Console.WriteLine("\nProduto atualizado com sucesso!");
+                SalvarDados();
+            }
+            else
+            {
+                Console.WriteLine("\nProduto não encontrado.");
+            }
+        }
+
+        static void RemoverProduto()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("==========    REMOVER PRODUTO    ============");
+            Console.WriteLine("==============================================");
+
+            Console.Write("Digite o ID do produto a ser removido: ");
+            int id = int.Parse(Console.ReadLine());
+
+            var produto = produtos.Find(p => p.Id == id);
+
+            if (produto != null)
+            {
+                produtos.Remove(produto);
+                Console.WriteLine("\nProduto removido com sucesso!");
+                SalvarDados();
+            }
+            else
+            {
+                Console.WriteLine("\nProduto não encontrado.");
+            }
+        }
+
+        static void AdicionarConsumidor()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("======   ADICIONAR NOVO CONSUMIDOR  ==========");
+            Console.WriteLine("==============================================");
+            Console.Write("Digite o nome do consumidor: ");
             string nome = Console.ReadLine();
-            Console.Write("Digite o CNPJ do fornecedor: ");
-            string cnpj = Console.ReadLine();
 
-            // Verificar se o CNPJ já existe
-            if (fornecedores.Any(f => f.CNPJ == cnpj))
-            {
-                Console.WriteLine("\nFornecedor com este CNPJ já existe.");
-                return;
-            }
+            int id = consumidores.Count > 0 ? consumidores[^1].Id + 1 : 1;
+            Consumidor consumidor = new Consumidor(id, nome);
+            consumidores.Add(consumidor);
 
-            Fornecedor fornecedor = new Fornecedor(nome, cnpj);
-            fornecedores.Add(fornecedor);
-            Console.WriteLine("\nFornecedor adicionado com sucesso!");
-
-            SalvarDados(); // Atualiza o arquivo após adicionar fornecedor
+            Console.WriteLine("\nConsumidor adicionado com sucesso!");
+            SalvarDados();
         }
 
-        static void ListarFornecedores()
+        static void ListarConsumidores()
         {
+            Console.Clear();
             Console.WriteLine("==============================================");
-            Console.WriteLine("========   LISTA DE FORNECEDORES   ===========");
+            Console.WriteLine("=======    LISTA DE CONSUMIDORES   ==========");
             Console.WriteLine("==============================================");
 
-            if (fornecedores.Count == 0)
+            if (consumidores.Count == 0)
             {
-                Console.WriteLine("\nNenhum fornecedor cadastrado.");
+                Console.WriteLine("\nNenhum consumidor cadastrado.");
             }
             else
             {
-                for (int i = 0; i < fornecedores.Count; i++)
+                foreach (var consumidor in consumidores)
                 {
-                    Console.WriteLine($"{i + 1}. {fornecedores[i].Nome} - CNPJ: {fornecedores[i].CNPJ}");
+                    Console.WriteLine($"ID: {consumidor.Id} - Nome: {consumidor.Nome}");
                 }
             }
         }
 
-        static void RemoverFornecedor()
+        static void AtualizarConsumidor()
         {
-            ListarFornecedores();
-            Console.Write("\nDigite o número do fornecedor a ser removido: ");
-            int indice = int.Parse(Console.ReadLine()) - 1;
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========   ATUALIZAR CONSUMIDOR  ============");
+            Console.WriteLine("==============================================");
 
-            if (indice >= 0 && indice < fornecedores.Count)
+            Console.Write("Digite o ID do consumidor a ser atualizado: ");
+            int id = int.Parse(Console.ReadLine());
+
+            var consumidor = consumidores.Find(c => c.Id == id);
+
+            if (consumidor != null)
             {
-                fornecedores.RemoveAt(indice);
-                Console.WriteLine("\nFornecedor removido com sucesso!");
-                SalvarDados(); // Atualiza o arquivo após remoção
+                Console.Write("Digite o novo nome do consumidor: ");
+                consumidor.Nome = Console.ReadLine();
+
+                Console.WriteLine("\nConsumidor atualizado com sucesso!");
+                SalvarDados();
             }
             else
             {
-                Console.WriteLine("\nNúmero inválido.");
+                Console.WriteLine("\nConsumidor não encontrado.");
             }
         }
 
-        static void CarregarDados()
+        static void RemoverConsumidor()
         {
-            // Carregar consumidores
-            string caminhoConsumidores = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Consumidores.json";
-            if (File.Exists(caminhoConsumidores))
-            {
-                string json = File.ReadAllText(caminhoConsumidores);
-                try
-                {
-                    var dados = JsonSerializer.Deserialize<Dados>(json);
-                    if (dados != null)
-                    {
-                        consumidores = dados.Consumidores;
-                        Console.WriteLine("Consumidores carregados com sucesso.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Dados carregados são nulos.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Erro ao desserializar o JSON dos consumidores: {ex.Message}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Arquivo JSON de consumidores não encontrado.");
-            }
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========    REMOVER CONSUMIDOR  ============");
+            Console.WriteLine("==============================================");
 
-            // Carregar produtos
-            string caminhoProdutos = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Produtos.json";
-            if (File.Exists(caminhoProdutos))
-            {
-                string json = File.ReadAllText(caminhoProdutos);
-                try
-                {
-                    var dados = JsonSerializer.Deserialize<Dados>(json);
-                    if (dados != null)
-                    {
-                        produtos = dados.Produtos;
-                        Console.WriteLine("Produtos carregados com sucesso.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Dados carregados são nulos.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Erro ao desserializar o JSON dos produtos: {ex.Message}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Arquivo JSON de produtos não encontrado.");
-            }
+            Console.Write("Digite o ID do consumidor a ser removido: ");
+            int id = int.Parse(Console.ReadLine());
 
-            // Carregar fornecedores
-            string caminhoFornecedores = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Fornecedores.json";
-            if (File.Exists(caminhoFornecedores))
+            var consumidor = consumidores.Find(c => c.Id == id);
+
+            if (consumidor != null)
             {
-                string json = File.ReadAllText(caminhoFornecedores);
-                try
+                consumidores.Remove(consumidor);
+                Console.WriteLine("\nConsumidor removido com sucesso!");
+                SalvarDados();
+            }
+            else
+            {
+                Console.WriteLine("\nConsumidor não encontrado.");
+            }
+        }
+
+        static void AdicionarConsumo()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("======   ADICIONAR NOVO CONSUMO   ============");
+            Console.WriteLine("==============================================");
+            Console.Write("Digite o ID do produto: ");
+            int produtoId = int.Parse(Console.ReadLine());
+            var produto = produtos.Find(p => p.Id == produtoId);
+
+            Console.Write("Digite o ID do consumidor: ");
+            int consumidorId = int.Parse(Console.ReadLine());
+            var consumidor = consumidores.Find(c => c.Id == consumidorId);
+
+            if (produto != null && consumidor != null)
+            {
+                int id = consumos.Count > 0 ? consumos[^1].Id + 1 : 1;
+                Consumo consumo = new Consumo(id, produto, consumidor);
+                consumos.Add(consumo);
+
+                Console.WriteLine("\nConsumo adicionado com sucesso!");
+                SalvarDados();
+            }
+            else
+            {
+                Console.WriteLine("\nProduto ou consumidor não encontrado.");
+            }
+        }
+
+        static void ListarConsumos()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=======      LISTA DE CONSUMOS   ============");
+            Console.WriteLine("==============================================");
+
+            if (consumos.Count == 0)
+            {
+                Console.WriteLine("\nNenhum consumo registrado.");
+            }
+            else
+            {
+                foreach (var consumo in consumos)
                 {
-                    var dados = JsonSerializer.Deserialize<Dados>(json);
-                    if (dados != null)
-                    {
-                        fornecedores = dados.Fornecedores;
-                        Console.WriteLine("Fornecedores carregados com sucesso.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Dados carregados são nulos.");
-                    }
+                    Console.WriteLine($"ID: {consumo.Id} - Produto: {consumo.Produto.Nome} - Consumidor: {consumo.Consumidor.Nome}");
                 }
-                catch (Exception ex)
+            }
+        }
+
+        static void AtualizarConsumo()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========   ATUALIZAR CONSUMO   =============");
+            Console.WriteLine("==============================================");
+
+            Console.Write("Digite o ID do consumo a ser atualizado: ");
+            int id = int.Parse(Console.ReadLine());
+
+            var consumo = consumos.Find(c => c.Id == id);
+
+            if (consumo != null)
+            {
+                Console.Write("Digite o novo ID do produto: ");
+                int produtoId = int.Parse(Console.ReadLine());
+                var produto = produtos.Find(p => p.Id == produtoId);
+
+                Console.Write("Digite o novo ID do consumidor: ");
+                int consumidorId = int.Parse(Console.ReadLine());
+                var consumidor = consumidores.Find(c => c.Id == consumidorId);
+
+                if (produto != null && consumidor != null)
                 {
-                    Console.WriteLine($"Erro ao desserializar o JSON dos fornecedores: {ex.Message}");
+                    consumo.Produto = produto;
+                    consumo.Consumidor = consumidor;
+                    Console.WriteLine("\nConsumo atualizado com sucesso!");
+                    SalvarDados();
+                }
+                else
+                {
+                    Console.WriteLine("\nProduto ou consumidor não encontrado.");
                 }
             }
             else
             {
-                Console.WriteLine("Arquivo JSON de fornecedores não encontrado.");
+                Console.WriteLine("\nConsumo não encontrado.");
+            }
+        }
+
+        static void RemoverConsumo()
+        {
+            Console.Clear();
+            Console.WriteLine("==============================================");
+            Console.WriteLine("=========    REMOVER CONSUMO   ==============");
+            Console.WriteLine("==============================================");
+
+            Console.Write("Digite o ID do consumo a ser removido: ");
+            int id = int.Parse(Console.ReadLine());
+
+            var consumo = consumos.Find(c => c.Id == id);
+
+            if (consumo != null)
+            {
+                consumos.Remove(consumo);
+                Console.WriteLine("\nConsumo removido com sucesso!");
+                SalvarDados();
+            }
+            else
+            {
+                Console.WriteLine("\nConsumo não encontrado.");
             }
         }
 
         static void SalvarDados()
         {
-            SalvarConsumidores();
-            SalvarProdutos();
-            SalvarFornecedores();
+            File.WriteAllText(caminhoProdutos, JsonSerializer.Serialize(produtos));
+            File.WriteAllText(caminhoConsumidores, JsonSerializer.Serialize(consumidores));
+            File.WriteAllText(caminhoConsumos, JsonSerializer.Serialize(consumos));
         }
 
-        static void SalvarConsumidores()
+        static void CarregarDados()
         {
-            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Consumidores.json";
-
-            try
+            if (File.Exists(caminhoProdutos))
             {
-                var dados = new Dados
-                {
-                    Consumidores = consumidores,
-                    Produtos = new List<Produto>(), // Lista vazia
-                    Fornecedores = new List<Fornecedor>() // Lista vazia
-                };
-
-                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(caminhoArquivo, json);
-
-                Console.WriteLine("Consumidores salvos com sucesso.");
+                string json = File.ReadAllText(caminhoProdutos);
+                produtos = JsonSerializer.Deserialize<List<Produto>>(json) ?? new List<Produto>();
             }
-            catch (Exception ex)
+
+            if (File.Exists(caminhoConsumidores))
             {
-                Console.WriteLine($"Erro ao salvar consumidores: {ex.Message}");
+                string json = File.ReadAllText(caminhoConsumidores);
+                consumidores = JsonSerializer.Deserialize<List<Consumidor>>(json) ?? new List<Consumidor>();
             }
-        }
 
-        static void SalvarProdutos()
-        {
-            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Produtos.json";
-
-            try
+            if (File.Exists(caminhoConsumos))
             {
-                var dados = new Dados
-                {
-                    Consumidores = new List<Consumidor>(), // Lista vazia
-                    Produtos = produtos,
-                    Fornecedores = new List<Fornecedor>() // Lista vazia
-                };
-
-                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(caminhoArquivo, json);
-
-                Console.WriteLine("Produtos salvos com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao salvar produtos: {ex.Message}");
-            }
-        }
-
-        static void SalvarFornecedores()
-        {
-            string caminhoArquivo = @"C:\Users\Aluno Noite\Desktop\Curso_Csharp\Fornecedores.json";
-
-            try
-            {
-                var dados = new Dados
-                {
-                    Consumidores = new List<Consumidor>(), // Lista vazia
-                    Produtos = new List<Produto>(), // Lista vazia
-                    Fornecedores = fornecedores
-                };
-
-                string json = JsonSerializer.Serialize(dados, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(caminhoArquivo, json);
-
-                Console.WriteLine("Fornecedores salvos com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao salvar fornecedores: {ex.Message}");
+                string json = File.ReadAllText(caminhoConsumos);
+                consumos = JsonSerializer.Deserialize<List<Consumo>>(json) ?? new List<Consumo>();
             }
         }
     }
+
+    public class Produto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+
+        public Produto(int id, string nome)
+        {
+            Id = id;
+            Nome = nome;
+        }
+    }
+
+    public class Consumidor
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+
+        public Consumidor(int id, string nome)
+        {
+            Id = id;
+            Nome = nome;
+        }
+    }
+
+    public class Consumo
+    {
+        public int Id { get; set; }
+        public Produto Produto { get; set; }
+        public Consumidor Consumidor { get; set; }
+
+        public Consumo(int id, Produto produto, Consumidor consumidor)
+        {
+            Id = id;
+            Produto = produto;
+            Consumidor = consumidor;
+        }
+    }
 }
+
+
+
+
 

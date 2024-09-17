@@ -13,8 +13,9 @@ namespace GerenciamentoBar
 
         public Consumidor(string nome, string cpf)
         {
-            Nome = nome;
-            CPF = cpf;
+           
+            this.Nome = nome;
+            this.CPF = cpf;
         }
     }
 

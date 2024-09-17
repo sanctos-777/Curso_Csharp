@@ -1,11 +1,22 @@
-{
-  "Consumidores": [],
-  "Produtos": [
-    {
-      "Nome": "coca cola",
-      "Preco": 5,
-      "Quantidade": 10
-    }
-  ],
-  "Fornecedores": []
-}
+[
+  {
+    "Id": 1,
+    "Nome": "João Silva"
+  },
+  {
+    "Id": 2,
+    "Nome": "Maria Oliveira"
+  },
+  {
+    "Id": 3,
+    "Nome": "Pedro Santos"
+  },
+  {
+    "Id": 4,
+    "Nome": "Ana Costa"
+  },
+  {
+    "Id": 5,
+    "Nome": "Carlos Pereira"
+  }
+]

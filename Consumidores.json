@@ -1,14 +1,22 @@
-{
-  "Consumidores": [
-    {
-      "Nome": "tiago",
-      "CPF": "01234567"
-    },
-    {
-      "Nome": "arthur",
-      "CPF": "23456789"
-    }
-  ],
-  "Produtos": [],
-  "Fornecedores": []
-}
+[
+  {
+    "Id": 1,
+    "Nome": "João Silva"
+  },
+  {
+    "Id": 2,
+    "Nome": "Maria Oliveira"
+  },
+  {
+    "Id": 3,
+    "Nome": "Pedro Santos"
+  },
+  {
+    "Id": 4,
+    "Nome": "Ana Costa"
+  },
+  {
+    "Id": 5,
+    "Nome": "Carlos Pereira"
+  }
+]
