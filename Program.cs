@@ -885,10 +885,7 @@ exp.ExplicarPolimorfismo();*/
 
 
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
+
 
 namespace SistemaGerenciamentoBar
 {
@@ -916,6 +913,7 @@ namespace SistemaGerenciamentoBar
                 Console.WriteLine("1. Gerenciar Produtos");
                 Console.WriteLine("2. Gerenciar Consumidores");
                 Console.WriteLine("3. Gerenciar Consumos");
+                Console.WriteLine("4. Relatório");
                 Console.WriteLine("0. Sair");
 
                 Console.Write("Escolha uma opção: ");
@@ -931,6 +929,9 @@ namespace SistemaGerenciamentoBar
                         break;
                     case 3:
                         MenuConsumos();
+                        break;
+                    case 4:
+                        Relatorio();
                         break;
                     case 0:
                         SalvarDados();
@@ -1095,22 +1096,45 @@ namespace SistemaGerenciamentoBar
         static void ListarProdutos()
         {
             Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("========    LISTA DE PRODUTOS    ============");
-            Console.WriteLine("==============================================");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                           LISTA DE PRODUTOS                                 ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                                               ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.ResetColor();
 
             if (produtos.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("\nNenhum produto cadastrado.");
+                Console.ResetColor();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                // Cabeçalhos da tabela
+                Console.WriteLine("╔════╦════════════════════════════╗");
+                Console.WriteLine("║ ID ║ Nome                       ║");
+                Console.WriteLine("╠════╬════════════════════════════╣");
+
+                // Ajuste o tamanho do campo do nome
                 foreach (var produto in produtos)
                 {
-                    Console.WriteLine($"ID: {produto.Id} - Nome: {produto.Nome}");
+                    string nomeProduto = produto.Nome.Length > 28 ? produto.Nome.Substring(0, 25) + "..." : produto.Nome.PadRight(28);
+                    Console.WriteLine($"║{produto.Id,-3} ║{nomeProduto}║");
                 }
+
+                // Linha de rodapé
+                Console.WriteLine("╚════╩════════════════════════════╝");
+                Console.ResetColor();
             }
+
+            Console.WriteLine("\nPressione Enter para voltar ao menu...");
+            Console.ReadKey();
         }
+
 
         static void AtualizarProduto()
         {
@@ -1119,15 +1143,35 @@ namespace SistemaGerenciamentoBar
             Console.WriteLine("==========   ATUALIZAR PRODUTO   ============");
             Console.WriteLine("==============================================");
 
+            // Listar produtos
+            Console.WriteLine("\n╔══════════════════════════════════════════════╗");
+            Console.WriteLine("║                   LISTA DE PRODUTOS          ║");
+            Console.WriteLine("╚══════════════════════════════════════════════╝");
+            Console.WriteLine("╔═════╦══════════════════════╗");
+            Console.WriteLine("║ ID  ║ Nome                 ║");
+            Console.WriteLine("╠═════╬══════════════════════╣");
+
+            foreach (var produto in produtos)
+            {
+                Console.WriteLine($"║ {produto.Id,-3} ║ {produto.Nome,-20} ║");
+            }
+
+            Console.WriteLine("╚═════╩══════════════════════╝");
+
+            // Solicitar ID do produto a ser atualizado
             Console.Write("Digite o ID do produto a ser atualizado: ");
-            int id = int.Parse(Console.ReadLine());
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.Write("ID inválido. Tente novamente: ");
+            }
 
-            var produto = produtos.Find(p => p.Id == id);
+            var produtoParaAtualizar = produtos.Find(p => p.Id == id);
 
-            if (produto != null)
+            if (produtoParaAtualizar != null)
             {
                 Console.Write("Digite o novo nome do produto: ");
-                produto.Nome = Console.ReadLine();
+                produtoParaAtualizar.Nome = Console.ReadLine();
 
                 Console.WriteLine("\nProduto atualizado com sucesso!");
                 SalvarDados();
@@ -1136,7 +1180,11 @@ namespace SistemaGerenciamentoBar
             {
                 Console.WriteLine("\nProduto não encontrado.");
             }
+
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void RemoverProduto()
         {
@@ -1145,14 +1193,34 @@ namespace SistemaGerenciamentoBar
             Console.WriteLine("==========    REMOVER PRODUTO    ============");
             Console.WriteLine("==============================================");
 
-            Console.Write("Digite o ID do produto a ser removido: ");
-            int id = int.Parse(Console.ReadLine());
+            // Listar produtos
+            Console.WriteLine("\n╔══════════════════════════════════════════════╗");
+            Console.WriteLine("║                   LISTA DE PRODUTOS          ║");
+            Console.WriteLine("╚══════════════════════════════════════════════╝");
+            Console.WriteLine("╔═════╦══════════════════════╗");
+            Console.WriteLine("║ ID  ║ Nome                 ║");
+            Console.WriteLine("╠═════╬══════════════════════╣");
 
-            var produto = produtos.Find(p => p.Id == id);
-
-            if (produto != null)
+            foreach (var produto in produtos)
             {
-                produtos.Remove(produto);
+                Console.WriteLine($"║ {produto.Id,-3} ║ {produto.Nome,-20} ║");
+            }
+
+            Console.WriteLine("╚═════╩══════════════════════╝");
+
+            // Solicitar ID do produto a ser removido
+            Console.Write("Digite o ID do produto a ser removido: ");
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.Write("ID inválido. Tente novamente: ");
+            }
+
+            var produtoParaRemover = produtos.Find(p => p.Id == id);
+
+            if (produtoParaRemover != null)
+            {
+                produtos.Remove(produtoParaRemover);
                 Console.WriteLine("\nProduto removido com sucesso!");
                 SalvarDados();
             }
@@ -1160,7 +1228,12 @@ namespace SistemaGerenciamentoBar
             {
                 Console.WriteLine("\nProduto não encontrado.");
             }
+
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
+
 
         static void AdicionarConsumidor()
         {
@@ -1182,22 +1255,45 @@ namespace SistemaGerenciamentoBar
         static void ListarConsumidores()
         {
             Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("=======    LISTA DE CONSUMIDORES   ==========");
-            Console.WriteLine("==============================================");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                        LISTA DE CONSUMIDORES                                ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                                               ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.ResetColor();
 
             if (consumidores.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("\nNenhum consumidor cadastrado.");
+                Console.ResetColor();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                // Cabeçalhos da tabela
+                Console.WriteLine("╔════╦══════════════════════════════╗");
+                Console.WriteLine("║ ID ║ Nome                         ║");
+                Console.WriteLine("╠════╬══════════════════════════════╣");
+
+                // Ajuste o tamanho do campo do nome
                 foreach (var consumidor in consumidores)
                 {
-                    Console.WriteLine($"ID: {consumidor.Id} - Nome: {consumidor.Nome}");
+                    string nomeConsumidor = consumidor.Nome.Length > 28 ? consumidor.Nome.Substring(0, 25) + "..." : consumidor.Nome.PadRight(28);
+                    Console.WriteLine($"║ {consumidor.Id,-3}║ {nomeConsumidor} ║");
                 }
+
+                // Linha de rodapé
+                Console.WriteLine("╚════╩══════════════════════════════╝");
+                Console.ResetColor();
             }
+
+            Console.WriteLine("\nPressione Enter para voltar ao menu...");
+            Console.ReadKey();
         }
+
 
         static void AtualizarConsumidor()
         {
@@ -1226,41 +1322,91 @@ namespace SistemaGerenciamentoBar
         }
 
         static void RemoverConsumidor()
-        {
-            Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("=========    REMOVER CONSUMIDOR  ============");
-            Console.WriteLine("==============================================");
+{
+    Console.Clear();
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════╗");
+    Console.WriteLine("║                         REMOVER CONSUMIDOR                                  ║");
+    Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+    Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                                               ║");
+    Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
 
-            Console.Write("Digite o ID do consumidor a ser removido: ");
-            int id = int.Parse(Console.ReadLine());
+    // Exibir a lista de consumidores
+    if (consumidores.Count == 0)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("║ Nenhum consumidor cadastrado. Pressione Enter para voltar ao menu... ║");
+        Console.ResetColor();
+        Console.ReadKey();
+        return; // Retorna se não houver consumidores
+    }
 
-            var consumidor = consumidores.Find(c => c.Id == id);
+    Console.WriteLine("╔════╦══════════════════════════════╗");
+    Console.WriteLine("║ ID ║ Nome                         ║");
+    Console.WriteLine("╠════╬══════════════════════════════╣");
 
-            if (consumidor != null)
-            {
-                consumidores.Remove(consumidor);
-                Console.WriteLine("\nConsumidor removido com sucesso!");
-                SalvarDados();
-            }
-            else
-            {
-                Console.WriteLine("\nConsumidor não encontrado.");
-            }
-        }
+    foreach (var consumidor in consumidores)
+    {
+        string nomeConsumidor = consumidor.Nome.Length > 28 ? consumidor.Nome.Substring(0, 25) + "..." : consumidor.Nome.PadRight(28);
+        Console.WriteLine($"║ {consumidor.Id,-3}║ {nomeConsumidor} ║");
+    }
+
+    Console.WriteLine("╚════╩══════════════════════════════╝");
+
+    Console.Write("║ Digite o ID do consumidor a ser removido: ");
+
+    // Mantendo a formatação do prompt
+    int id;
+    while (!int.TryParse(Console.ReadLine(), out id))
+    {
+        Console.Write("║ ID inválido. Tente novamente: ");
+    }
+
+    var consumidorParaRemover = consumidores.Find(c => c.Id == id);
+
+    if (consumidorParaRemover != null)
+    {
+        consumidores.Remove(consumidorParaRemover);
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("\n║ Consumidor removido com sucesso! ║");
+        SalvarDados();
+    }
+    else
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("\n║ Consumidor não encontrado. ║");
+    }
+
+    Console.ResetColor();
+    Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+    Console.WriteLine("\nPressione Enter para voltar ao menu...");
+    Console.ReadKey();
+}
 
         static void AdicionarConsumo()
         {
             Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("======   ADICIONAR NOVO CONSUMO   ============");
-            Console.WriteLine("==============================================");
-            Console.Write("Digite o ID do produto: ");
-            int produtoId = int.Parse(Console.ReadLine());
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                     ADICIONAR NOVO CONSUMO                                  ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                                               ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+
+            Console.Write("║ Digite o ID do produto: ");
+            int produtoId;
+            while (!int.TryParse(Console.ReadLine(), out produtoId))
+            {
+                Console.Write("║ ID inválido. Tente novamente: ");
+            }
             var produto = produtos.Find(p => p.Id == produtoId);
 
-            Console.Write("Digite o ID do consumidor: ");
-            int consumidorId = int.Parse(Console.ReadLine());
+            Console.Write("║ Digite o ID do consumidor: ");
+            int consumidorId;
+            while (!int.TryParse(Console.ReadLine(), out consumidorId))
+            {
+                Console.Write("║ ID inválido. Tente novamente: ");
+            }
             var consumidor = consumidores.Find(c => c.Id == consumidorId);
 
             if (produto != null && consumidor != null)
@@ -1269,98 +1415,166 @@ namespace SistemaGerenciamentoBar
                 Consumo consumo = new Consumo(id, produto, consumidor);
                 consumos.Add(consumo);
 
-                Console.WriteLine("\nConsumo adicionado com sucesso!");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n║ Consumo adicionado com sucesso! ║");
                 SalvarDados();
             }
             else
             {
-                Console.WriteLine("\nProduto ou consumidor não encontrado.");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n║ Produto ou consumidor não encontrado. ║");
             }
+
+            Console.ResetColor();
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine("\nPressione Enter para voltar ao menu...");
+            Console.ReadKey();
         }
+
 
         static void ListarConsumos()
         {
             Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("=======      LISTA DE CONSUMOS   ============");
-            Console.WriteLine("==============================================");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                       LISTA DE CONSUMOS                                     ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                                               ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
 
             if (consumos.Count == 0)
             {
-                Console.WriteLine("\nNenhum consumo registrado.");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("║ Nenhum consumo registrado. ║");
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════╦══════════════════════════════╦═════════════════════════════╗");
+                Console.WriteLine("║ ID ║ Produto                      ║ Consumidor                  ║");
+                Console.WriteLine("╠════╬══════════════════════════════╬═════════════════════════════╣");
+
                 foreach (var consumo in consumos)
                 {
-                    Console.WriteLine($"ID: {consumo.Id} - Produto: {consumo.Produto.Nome} - Consumidor: {consumo.Consumidor.Nome}");
+                    string nomeProduto = consumo.Produto?.Nome ?? "Produto inexistente";
+                    string nomeConsumidor = consumo.Consumidor?.Nome ?? "Consumidor inexistente";
+
+                    nomeProduto = nomeProduto.Length > 26 ? nomeProduto.Substring(0, 23) + "..." : nomeProduto.PadRight(26);
+                    nomeConsumidor = nomeConsumidor.Length > 26 ? nomeConsumidor.Substring(0, 23) + "..." : nomeConsumidor.PadRight(26);
+
+                    Console.WriteLine($"║ {consumo.Id,-3}║ {nomeProduto}   ║ {nomeConsumidor}  ║");
                 }
+
+                Console.WriteLine("╚════╩══════════════════════════════╩═════════════════════════════╝");
             }
+
+            Console.ResetColor();
+            Console.WriteLine("\nPressione Enter para voltar ao menu...");
+            Console.ReadKey();
         }
 
         static void AtualizarConsumo()
         {
             Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("=========   ATUALIZAR CONSUMO   =============");
-            Console.WriteLine("==============================================");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                         ATUALIZAR CONSUMO                                   ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                                               ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
 
-            Console.Write("Digite o ID do consumo a ser atualizado: ");
-            int id = int.Parse(Console.ReadLine());
+            Console.Write("║ Digite o ID do consumo a ser atualizado: ");
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.Write("║ ID inválido. Tente novamente: ");
+            }
 
             var consumo = consumos.Find(c => c.Id == id);
 
             if (consumo != null)
             {
-                Console.Write("Digite o novo ID do produto: ");
-                int produtoId = int.Parse(Console.ReadLine());
+                Console.Write("║ Digite o novo ID do produto: ");
+                int produtoId;
+                while (!int.TryParse(Console.ReadLine(), out produtoId))
+                {
+                    Console.Write("║ ID inválido. Tente novamente: ");
+                }
                 var produto = produtos.Find(p => p.Id == produtoId);
 
-                Console.Write("Digite o novo ID do consumidor: ");
-                int consumidorId = int.Parse(Console.ReadLine());
+                Console.Write("║ Digite o novo ID do consumidor: ");
+                int consumidorId;
+                while (!int.TryParse(Console.ReadLine(), out consumidorId))
+                {
+                    Console.Write("║ ID inválido. Tente novamente: ");
+                }
                 var consumidor = consumidores.Find(c => c.Id == consumidorId);
 
                 if (produto != null && consumidor != null)
                 {
                     consumo.Produto = produto;
                     consumo.Consumidor = consumidor;
-                    Console.WriteLine("\nConsumo atualizado com sucesso!");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\n║ Consumo atualizado com sucesso! ║");
                     SalvarDados();
                 }
                 else
                 {
-                    Console.WriteLine("\nProduto ou consumidor não encontrado.");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\n║ Produto ou consumidor não encontrado. ║");
                 }
             }
             else
             {
-                Console.WriteLine("\nConsumo não encontrado.");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n║ Consumo não encontrado. ║");
             }
+
+            Console.ResetColor();
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine("\nPressione Enter para voltar ao menu...");
+            Console.ReadKey();
         }
+
 
         static void RemoverConsumo()
         {
             Console.Clear();
-            Console.WriteLine("==============================================");
-            Console.WriteLine("=========    REMOVER CONSUMO   ==============");
-            Console.WriteLine("==============================================");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                         REMOVER CONSUMO                                     ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                                               ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
 
-            Console.Write("Digite o ID do consumo a ser removido: ");
-            int id = int.Parse(Console.ReadLine());
+            Console.Write("║ Digite o ID do consumo a ser removido: ");
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.Write("║ ID inválido. Tente novamente: ");
+            }
 
             var consumo = consumos.Find(c => c.Id == id);
 
             if (consumo != null)
             {
                 consumos.Remove(consumo);
-                Console.WriteLine("\nConsumo removido com sucesso!");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n║ Consumo removido com sucesso! ║");
                 SalvarDados();
             }
             else
             {
-                Console.WriteLine("\nConsumo não encontrado.");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n║ Consumo não encontrado. ║");
             }
+
+            Console.ResetColor();
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine("\nPressione Enter para voltar ao menu...");
+            Console.ReadKey();
         }
+
 
         static void SalvarDados()
         {
@@ -1389,8 +1603,85 @@ namespace SistemaGerenciamentoBar
                 consumos = JsonSerializer.Deserialize<List<Consumo>>(json) ?? new List<Consumo>();
             }
         }
-    }
 
+        static void Relatorio()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("╔═══════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                   RELATÓRIO                           ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════╝");
+            Console.WriteLine($"║ Data e Hora: {DateTime.Now:dd/MM/yyyy HH:mm}                         ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════╝");
+
+            // Total de produtos, consumidores e consumos
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"Total de Produtos: {produtos.Count}");
+            Console.WriteLine($"Total de Consumidores: {consumidores.Count}");
+            Console.WriteLine($"Total de Consumos: {consumos.Count}");
+
+            // Listar produtos
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n╔═══════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                   LISTA DE PRODUTOS                   ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════╝");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("╔═════╦══════════════════════╗");
+            Console.WriteLine("║ ID  ║ Nome                 ║");
+            Console.WriteLine("╠═════╬══════════════════════╣");
+
+            foreach (var produto in produtos)
+            {
+                Console.WriteLine($"║ {produto.Id,-3} ║ {produto.Nome,-20} ║");
+            }
+
+            Console.WriteLine("╚═════╩══════════════════════╝");
+
+            // Listar consumidores
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n╔═══════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                   LISTA DE CONSUMIDORES               ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════╝");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("╔═════╦══════════════════════╗");
+            Console.WriteLine("║ ID  ║ Nome                 ║");
+            Console.WriteLine("╠═════╬══════════════════════╣");
+
+            foreach (var consumidor in consumidores)
+            {
+                Console.WriteLine($"║ {consumidor.Id,-3} ║ {consumidor.Nome,-20} ║");
+            }
+
+            Console.WriteLine("╚═════╩══════════════════════╝");
+
+            // Listar consumos
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n╔═══════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                    LISTA DE CONSUMOS                  ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════╝");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("╔═════╦══════════════════════╦══════════════════════╗");
+            Console.WriteLine("║ ID  ║ Produto              ║ Consumidor           ║");
+            Console.WriteLine("╠═════╬══════════════════════╬══════════════════════╣");
+
+            foreach (var consumo in consumos)
+            {
+                var produtoNome = consumo.Produto != null ? consumo.Produto.Nome : "Produto inexistente";
+                var consumidorNome = consumo.Consumidor != null ? consumo.Consumidor.Nome : "Consumidor inexistente";
+
+                Console.WriteLine($"║ {consumo.Id,-3} ║ {produtoNome,-20} ║{consumidorNome,-20}║");
+            }
+
+            Console.WriteLine("╚═════╩══════════════════════╩══════════════════════╝");
+
+            Console.ResetColor();
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+        }
+
+
+
+    }
     public class Produto
     {
         public int Id { get; set; }

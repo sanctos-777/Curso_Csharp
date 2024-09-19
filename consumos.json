@@ -1,14 +1,1 @@
-[
-  {
-    "Id": 1,
-    "Nome": "Distribuidora de Bebidas A"
-  },
-  {
-    "Id": 2,
-    "Nome": "Importadora B"
-  },
-  {
-    "Id": 3,
-    "Nome": "Vinhos & Cia"
-  }
-]
+[{"Id":1,"Produto":null,"Consumidor":null},{"Id":2,"Produto":null,"Consumidor":null},{"Id":3,"Produto":null,"Consumidor":null}]
